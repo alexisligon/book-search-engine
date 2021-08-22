@@ -19,4 +19,6 @@ const resolvers = {
         },
         saveBook: async()
     }
-}
+};
+
+module.exports = resolvers;
