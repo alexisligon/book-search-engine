@@ -12,7 +12,6 @@ const resolvers = {
         },
     },
     Mutation: {
-        // login
         // add user
         // saveBook
         // removeBook
@@ -35,6 +34,19 @@ const resolvers = {
             if (!correctPw) {
                 throw new AuthenticationError("Wrong Password!")
             }
+        },
+
+        saveBook: async(parent, {bookData}, context) => {
+            if(context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: user._id },
+                    { $addToSet: { savedBooks: bookData } },
+                    { new: true, runValidators: true }
+                  )
+                  return updatedUser;
+            }
+
+            throw new AuthenticationError("Error")
         }
     }
 };
