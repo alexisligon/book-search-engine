@@ -13,14 +13,7 @@ const resolvers = {
     },
     Mutation: {
         // add user
-        // saveBook
         // removeBook
-        // login: 
-        // createUser: async (parent, args) => {
-        //     const user = await User.create(args);
-        //     return user;
-        // },
-        // saveBook: async()
 
         login: async(parent, {email, password}) => {
             const user = await User.findOne({ email });
@@ -42,6 +35,19 @@ const resolvers = {
                     { _id: user._id },
                     { $addToSet: { savedBooks: bookData } },
                     { new: true, runValidators: true }
+                  )
+                  return updatedUser;
+            }
+
+            throw new AuthenticationError("Error")
+        },
+
+        deleteBook: async(parent, {bookData}, context) => {
+            if(context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: user._id },
+                    { $pull: { savedBooks: { bookId: params.bookId } } },
+                    { new: true }
                   )
                   return updatedUser;
             }
