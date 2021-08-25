@@ -5,7 +5,7 @@ const typeDefs = gql`
   type Query {
     me: User
   }
-  
+
   type User {
     username: String!
     email: String!
@@ -19,6 +19,11 @@ const typeDefs = gql`
       image: String!
       link: String!
       title: String!
+  }
+
+  type Auth {
+    token: ID!
+    user: User
   }
 `;
 
