@@ -22,6 +22,20 @@ const resolvers = {
         //     return user;
         // },
         // saveBook: async()
+
+        login: async(parent, {email, password}) => {
+            const user = await User.findOne({ email });
+
+            if(!user) {
+                throw new AuthenticationError("Can't find this user")
+            }
+
+            const correctPw = await user.isCorrectPassword(password);
+
+            if (!correctPw) {
+                throw new AuthenticationError("Wrong Password!")
+            }
+        }
     }
 };
 
